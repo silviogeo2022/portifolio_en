@@ -5,18 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Silvio Lemos Portfolio</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <div class="scroll-progress"></div>
+
   <header class="header">
+    <div class="header-bg-grid"></div>
+    <div class="header-glow header-glow-1"></div>
+    <div class="header-glow header-glow-2"></div>
     <div class="header-content">
       <div class="profile-section">
-        <img src="perfil.jpeg" alt="Silvio Lemos" class="profile-image">
+        <div class="profile-image-wrap">
+          <img src="perfil.jpeg" alt="Silvio Lemos" class="profile-image">
+        </div>
         <div class="profile-info">
+          <span class="availability-badge"><span class="pulse-dot"></span>Available for new projects</span>
           <h1>Silvio Lemos</h1>
           <p class="profile-title">Geospatial Data Scientist / Geospatial Data Engineer</p>
           <p class="profile-description">Development of Geospatial Solutions applying Data Science, Remote Sensing, Automation and GeoAI.</p>
+          <div class="header-cta">
+            <a href="#contato" class="btn-primary btn-lg">
+              <i class="fas fa-paper-plane"></i> Let's Talk
+            </a>
+            <a href="#projetos" class="btn-secondary btn-lg btn-outline-light">
+              <i class="fas fa-diagram-project"></i> View Projects
+            </a>
+          </div>
         </div>
       </div>
       <div class="header-stats">
@@ -818,25 +834,28 @@
   </main>
 
   <section id="contato" class="contact-section">
+    <div class="header-glow header-glow-1"></div>
+    <div class="header-glow header-glow-2"></div>
     <div class="container">
       <h2 class="section-title">Let's Talk?</h2>
-      <p class="section-subtitle">I'm always open to new opportunities and collaborations</p>
+      <p class="section-subtitle">I'm always open to new opportunities and collaborations — drop me a message and I'll get back to you fast.</p>
 
       <div class="contact-grid">
-        <a href="mailto:silviolemosamn@gmail.com" class="contact-card scroll-reveal-item">
-          <div class="contact-icon">
-            <i class="fas fa-envelope"></i>
-          </div>
-          <h3>E-mail</h3>
-          <p>silviolemosamn@gmail.com</p>
-        </a>
-
-        <a href="https://wa.me/5591991284476" target="_blank" class="contact-card scroll-reveal-item">
+        <a href="https://wa.me/5591991284476" target="_blank" class="contact-card contact-card-featured scroll-reveal-item">
           <div class="contact-icon">
             <i class="fab fa-whatsapp"></i>
           </div>
           <h3>WhatsApp</h3>
           <p>+55 (91) 99128-4476</p>
+          <span class="contact-cta-label">Fastest response <i class="fas fa-arrow-right"></i></span>
+        </a>
+
+        <a href="mailto:silviolemosamb@gmail.com" class="contact-card scroll-reveal-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <h3>E-mail</h3>
+          <p>silviolemosamb@gmail.com</p>
         </a>
 
         <a href="https://www.linkedin.com/in/silvio-lemos-75219096/" target="_blank" class="contact-card scroll-reveal-item">
@@ -855,6 +874,12 @@
       <p>&copy; 2025 Silvio Lemos. All rights reserved.</p>
     </div>
   </footer>
+
+  <a href="https://wa.me/5591991284476" target="_blank" class="fab-contact" aria-label="Contact me on WhatsApp">
+    <span class="fab-ping"></span>
+    <i class="fab fa-whatsapp"></i>
+    <span class="fab-tooltip">Let's talk!</span>
+  </a>
 
   <script>
     // Project filters
@@ -910,6 +935,32 @@
     document.querySelectorAll('.scroll-reveal, .scroll-reveal-item').forEach(el => {
       observer.observe(el);
     });
+
+    // Scroll progress bar
+    const scrollProgress = document.querySelector('.scroll-progress');
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollProgress.style.width = progress + '%';
+    }
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress();
+
+    // Active nav link highlighting
+    const navLinks = document.querySelectorAll('.nav-link');
+    const navSections = document.querySelectorAll('section[id]');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    navSections.forEach(section => navObserver.observe(section));
   </script>
 </body>
 </html>
